@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <p>TODO APP</p>
+    <input type="text" id="task_given" placeholder="Type Your Task">
+    <input type="date" name="" id="date_given">
+    <button onclick="insertItems();displayItems();">ADD</button>
+
+    <div id="div_container"></div>
+
+    <script>
+        let item=[];
+        if(localStorage.getItem('item'))
+             {
+                item=JSON.parse(localStorage.getItem('item'));
+             }
+
+  displayItems();
+        function insertItems()
+        {
+            let task=document.querySelector('#task_given');
+            let date=document.querySelector('#date_given');
+              item.push({'Task':task.value,'Date':date.value});
+            task.value='';
+            date.value='';
+            localStorage.setItem('item',JSON.stringify(item));
+        }
+        function removeItems(n){
+            item.splice(n,1);
+            localStorage.setItem('item',JSON.stringify(item));
+        }
+
+       function displayItems()
+        {
+             let html='';
+
+            for(let i=0;i<item.length;i++)
+        {
+            html+=`<div ><p>${item[i].Task}  ${item[i].Date} <button onclick='
+                removeItems(${i});
+                displayItems();
+          
+                ' >Delete</button></div></p>`
+
+        }
+        document.querySelector('#div_container').innerHTML=html;
+        }
+    </script>
+</body>
+</html>
